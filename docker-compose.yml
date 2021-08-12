@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  db:
+    container_name: bookmark_sql_server
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: Password1
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5100:1433"
+
+  es:
+    image: elasticsearch:7.9.1
+    container_name: es
+    ports:
+      - "9200:9200"
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx512m"
+      discovery.type: single-node
+
+  queue:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
