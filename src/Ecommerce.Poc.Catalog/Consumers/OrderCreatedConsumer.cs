@@ -1,4 +1,5 @@
 ﻿using DotNetCore.CAP;
+using Ecommerce.Poc.Catalog.Domain.Models;
 using Ecommerce.Poc.Catalog.Dtos;
 using Ecommerce.Poc.Catalog.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,11 @@ namespace Ecommerce.Poc.Catalog.Consumers
         public async Task UpdateProductStock(OrderCreatedMessage message)
         {
             _logger.LogDebug("Message received from customer {message}", message);
+            if (await MessageWasProcessed(message))
+            {
+                _logger.LogInformation("Message was processed already. Ignoring {MessageId}.", message.Id);
+                return;
+            }
             var materialCodes = message.OrderItems.Select(x => x.MaterialCode);
             var productQuantities = message.OrderItems.ToDictionary(x => x.MaterialCode, x => x.Quantity);
 
@@ -37,7 +43,19 @@ namespace Ecommerce.Poc.Catalog.Consumers
                 product.Stock -= productQuantities[product.MaterialCode];
             }
 
+            MarkMessageAsProcessed(message);
+
             await _context.SaveChangesAsync();
+        }
+
+        private void MarkMessageAsProcessed(OrderCreatedMessage message)
+        {
+            _context.Messages.Add(new MessageTracking { Id = message.Id });
+        }
+
+        private async Task<bool> MessageWasProcessed(OrderCreatedMessage message)
+        {
+            return await _context.Messages.AnyAsync(x => x.Id == message.Id);
         }
     }
 }

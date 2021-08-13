@@ -1,6 +1,7 @@
 using DotNetCore.CAP;
 using Ecommerce.Poc.Sale.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@ namespace Ecommerce.Poc.Sale.Controllers
                 _context.Orders.Add(order);
 
                 var orderMessage = new OrderMessage(
+                    order.Id,
                     order.Items.Select(x => new OrderItemMessage(x.MaterialCode, x.Quantity)).ToList()
                 );
                 await _capBus.PublishAsync("order.created", orderMessage);

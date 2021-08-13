@@ -1,5 +1,13 @@
 # Setup
 
+## TODO
+
+- [x] Messaging between services
+- [x] Idempotent messages
+- [ ] Propagate tracecontext
+- [ ] Load test
+
+## Useful commands
 dotnet new sln --name Ecommerce.Poc 
 
 dotnet new webapi --name Ecommerce.Poc.Sale -o src/Ecommerce.Poc.Sale

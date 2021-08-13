@@ -1,4 +1,5 @@
-﻿using Ecommerce.Poc.Catalog.Domain.Models;
+﻿using DotNetCore.CAP.Messages;
+using Ecommerce.Poc.Catalog.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Poc.Catalog.Infrastructure
@@ -19,5 +20,6 @@ namespace Ecommerce.Poc.Catalog.Infrastructure
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<MessageTracking> Messages { get; set; }
     }
 }

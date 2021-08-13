@@ -5,5 +5,5 @@ namespace Ecommerce.Poc.Sale.Dtos
 {
     public record OrderItemMessage(string MaterialCode, int Quantity);
 
-    public record OrderMessage(IEnumerable<OrderItemMessage> OrderItems);
+    public record OrderMessage(Guid Id, IEnumerable<OrderItemMessage> OrderItems);
 }
