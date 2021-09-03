@@ -1,4 +1,4 @@
-# Setup
+# Ecommerce.Poc
 
 ## TODO
 
@@ -8,6 +8,7 @@
 - [x] Multiple consumers - same assembly
 - [ ] Multiple consumers - same message
 - [ ] Change Qos
+- [ ] Error handling
 - [ ] Propagate tracecontext
 - [ ] Load test
 
