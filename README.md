@@ -4,8 +4,26 @@
 
 - [x] Messaging between services
 - [x] Idempotent messages
+- [x] Cap Filter
+- [x] Multiple consumers - same assembly
+- [ ] Multiple consumers - same message
+- [ ] Change Qos
 - [ ] Propagate tracecontext
 - [ ] Load test
+
+## Running locally
+
+```bash
+# Run dependencies
+docker compose up -d db es queue
+
+# Run migrations for Sale
+dotnet ef database update --project .\src\Ecommerce.Poc.Sale\Ecommerce.Poc.Sale.csproj --context SaleDbContext
+
+# Run migrations for Catalog
+dotnet run --project .\src\Ecommerce.Poc.Catalog\ -- seed
+```
+
 
 ## Useful commands
 dotnet new sln --name Ecommerce.Poc 

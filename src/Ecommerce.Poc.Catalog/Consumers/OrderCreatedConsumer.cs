@@ -25,8 +25,7 @@ namespace Ecommerce.Poc.Catalog.Consumers
         [CapSubscribe("order.created")]
         public async Task UpdateProductStock(OrderCreatedMessage message)
         {
-            _logger.LogDebug("Message received from customer {message}", message);
-            if (await MessageWasProcessed(message))
+            if (await TrackMessageAsync(message))
             {
                 _logger.LogInformation("Message was processed already. Ignoring {MessageId}.", message.Id);
                 return;
@@ -43,19 +42,16 @@ namespace Ecommerce.Poc.Catalog.Consumers
                 product.Stock -= productQuantities[product.MaterialCode];
             }
 
-            MarkMessageAsProcessed(message);
-
             await _context.SaveChangesAsync();
         }
 
-        private void MarkMessageAsProcessed(OrderCreatedMessage message)
+        private async Task<bool> TrackMessageAsync(OrderCreatedMessage message)
         {
-            _context.Messages.Add(new MessageTracking { Id = message.Id });
-        }
+            if (await _context.Messages.AnyAsync(x => x.Id == message.Id))
+                return true;
 
-        private async Task<bool> MessageWasProcessed(OrderCreatedMessage message)
-        {
-            return await _context.Messages.AnyAsync(x => x.Id == message.Id);
+            _context.Messages.Add(new MessageTracking { Id = message.Id });
+            return false;
         }
     }
 }

@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Poc.Catalog.Commands
 {
-    [Command("order-created-consumer")]
-    public class OrderCreatedConsumerCommand : ICommand
+    [Command("order-canceled-consumer")]
+    public class OrderCanceledConsumerCommand : ICommand
     {
         public async ValueTask ExecuteAsync(IConsole console)
         {
@@ -33,8 +33,8 @@ namespace Ecommerce.Poc.Catalog.Commands
                 .ConfigureServices(services =>
                 {
                     services
-                        .AddScoped<OrderCreatedConsumer>()
-                        .AddCapConsumer(configuration, "order_created");;
+                        .AddScoped<OrderCanceledConsumer>()
+                        .AddCapConsumer(configuration, "order_canceled");
                     services.AddDbContext<CatalogDbContext>(options =>
                         options.UseSqlServer(configuration.GetConnectionString("CatalogDbContext")));
                 });

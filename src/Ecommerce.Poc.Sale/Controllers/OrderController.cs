@@ -40,5 +40,24 @@ namespace Ecommerce.Poc.Sale.Controllers
 
             return Ok();
         }
+
+        [HttpPost("cancel")]
+        public async Task<IActionResult> CancelOrder([FromBody] Order order)
+        {
+            await using (_context.Database.BeginTransaction(_capBus, autoCommit: true))
+            {
+                // cancel order
+
+                var orderMessage = new OrderMessage(
+                    order.Id,
+                    order.Items.Select(x => new OrderItemMessage(x.MaterialCode, x.Quantity)).ToList()
+                );
+                await _capBus.PublishAsync("order.canceled", orderMessage);
+
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
     }
 }
