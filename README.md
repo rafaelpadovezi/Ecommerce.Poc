@@ -72,3 +72,5 @@ dotnet run --project ./src/Ecommerce.Poc.Search -- product-created-consumer
 - https://github.com/dotnetcore/CAP/issues/800
 - https://github.com/dotnetcore/CAP/issues/638
 - https://www.elastic.co/guide/en/elasticsearch/client/net-api/master/lifetimes.html
+- https://github.com/dotnetcore/CAP/issues/347 - CAP message Id
+- https://cap.dotnetcore.xyz/user-guide/en/getting-started/quick-start/
