@@ -19,9 +19,9 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
 
                     x.UseRabbitMQ(o =>
                     {
-                        o.HostName = Program.Configuration.GetValue<string>("RabbitMQ:HostName");
-                        o.Port = Program.Configuration.GetValue<int>("RabbitMQ:Port");
-                        o.ExchangeName = Program.Configuration.GetValue<string>("RabbitMQ:ExchangeName");
+                        o.HostName = configuration.GetValue<string>("RabbitMQ:HostName");
+                        o.Port = configuration.GetValue<int>("RabbitMQ:Port");
+                        o.ExchangeName = configuration.GetValue<string>("RabbitMQ:ExchangeName");
                         // To consume messages without the cap headers - https://cap.dotnetcore.xyz/user-guide/en/cap/messaging/#custom-headers
                         o.CustomHeaders = e => new List<KeyValuePair<string, string>>
                         {

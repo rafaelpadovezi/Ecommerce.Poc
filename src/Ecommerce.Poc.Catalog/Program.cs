@@ -1,18 +1,14 @@
 using CliFx;
 using Ecommerce.Poc.Catalog.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.IO;
 
 namespace Ecommerce.Poc.Catalog
 {
-    public class Program
+    public static class Program
     {
         internal static IConfiguration Configuration { get; set; }
 
@@ -20,7 +16,7 @@ namespace Ecommerce.Poc.Catalog
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .AddEnvironmentVariables().Build();
             // Commands are declared on Commands folder
             return await new CliApplicationBuilder()

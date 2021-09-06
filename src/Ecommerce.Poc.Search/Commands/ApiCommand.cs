@@ -1,26 +1,30 @@
-﻿using CliFx;
+using System;
+using System.Threading.Tasks;
+using CliFx;
 using CliFx.Attributes;
-using Ecommerce.Poc.Catalog.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Threading.Tasks;
-using Ecommerce.Poc.Catalog.Infrastructure.Extensions;
 
-namespace Ecommerce.Poc.Catalog.Commands
+namespace Ecommerce.Poc.Search.Commands
 {
     [Command("api")]
     public class ApiCommand : ICommand
     {
         public async ValueTask ExecuteAsync(IConsole console) =>
-            await Program.CreateHostBuilder(Array.Empty<string>())
+            await CreateHostBuilder(Array.Empty<string>())
                 .Build()
                 .RunAsync();
+
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
 
         public class Startup
         {
@@ -38,21 +42,7 @@ namespace Ecommerce.Poc.Catalog.Commands
                 services.AddControllers();
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce.Poc.Catalog", Version = "v1" });
-                });
-                services.AddDbContext<CatalogDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("CatalogDbContext")));
-
-                services.AddCap(x =>
-                {
-                    x.UseEntityFramework<CatalogDbContext>();
-
-                    x.UseRabbitMQ(o =>
-                    {
-                        o.HostName = Configuration.GetValue<string>("RabbitMQ:HostName");
-                        o.Port = Configuration.GetValue<int>("RabbitMQ:Port");
-                        o.ExchangeName = Configuration.GetValue<string>("RabbitMQ:ExchangeName");
-                    });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce.Poc.Search", Version = "v1" });
                 });
             }
 
@@ -63,7 +53,7 @@ namespace Ecommerce.Poc.Catalog.Commands
                 {
                     app.UseDeveloperExceptionPage();
                     app.UseSwagger();
-                    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecommerce.Poc.Catalog v1"));
+                    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecommerce.Poc.Search v1"));
                 }
 
                 app.UseHttpsRedirection();

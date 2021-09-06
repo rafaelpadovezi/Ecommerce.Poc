@@ -48,3 +48,10 @@ dotnet ef migrations add InitialCreate --project .\src\Ecommerce.Poc.Catalog\Eco
 dotnet ef migrations add InitialCreate --project .\src\Ecommerce.Poc.Sale\Ecommerce.Poc.Sale.csproj -o Infrastructure/Migrations
 
 dotnet run --project .\src\Ecommerce.Poc.Catalog\ -- seed
+
+# Useful links
+
+https://github.com/dotnetcore/CAP/pull/976
+https://github.com/dotnetcore/CAP/issues/932
+https://github.com/dotnetcore/CAP/issues/800
+https://github.com/dotnetcore/CAP/issues/638
