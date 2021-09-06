@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using DotNetCore.CAP;
 using DotNetCore.CAP.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 
 namespace Ecommerce.Poc.Search.Infrastructure.Extensions
 {
@@ -15,7 +18,7 @@ namespace Ecommerce.Poc.Search.Infrastructure.Extensions
                 // CAP needs a storage to work
                 x.UseInMemoryStorage();
 
-                x.DefaultGroupName = groupName;
+                x.DefaultGroupName = $"search_{groupName}";
 
                 x.UseRabbitMQ(o =>
                 {
@@ -30,6 +33,22 @@ namespace Ecommerce.Poc.Search.Infrastructure.Extensions
                     };
                 });
             });
+        }
+
+        public static IServiceCollection AddElasticClient(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var elasticUrl = configuration.GetValue<string>("ElasticSearch:Url");
+            var indexName = configuration.GetValue<string>("ElasticSearch:IndexName");
+            var settings = new ConnectionSettings(new Uri(elasticUrl))
+                .DefaultIndex(indexName)
+                .EnableDebugMode();
+
+            var client = new ElasticClient(settings);
+            // https://www.elastic.co/guide/en/elasticsearch/client/net-api/master/lifetimes.html
+            services.AddSingleton<IElasticClient>(_ => client);
+            return services;
         }
     }
 }

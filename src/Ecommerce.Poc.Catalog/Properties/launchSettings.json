@@ -26,7 +26,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "commandLineArgs": "api"//"order-created-consumer"
+      "commandLineArgs": "order-created-consumer"
     }
   }
 }

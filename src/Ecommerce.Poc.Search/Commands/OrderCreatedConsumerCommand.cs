@@ -11,14 +11,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Poc.Search.Commands
 {
-    [Command("product-created-consumer")]
-    public class ProductCreatedConsumerCommand : ICommand
+    [Command("order-created-consumer")]
+    public class OrderCreatedConsumerCommand : ICommand
     {
         public async ValueTask ExecuteAsync(IConsole console)
         {
             await CreateConsumerHost(Array.Empty<string>(), Program.Configuration).Build().RunAsync();
         }
-
+        
         private static IHostBuilder CreateConsumerHost(string[] args, IConfiguration configuration) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureLogging(builder =>
@@ -32,8 +32,8 @@ namespace Ecommerce.Poc.Search.Commands
                 {
                     services
                         .AddElasticClient(configuration)
-                        .AddScoped<ProductCreatedConsumer>()
-                        .AddCapConsumer(configuration, "product_created");
+                        .AddScoped<OrderCreatedConsumer>()
+                        .AddCapConsumer(configuration, "order_created");
                 });
     }
 }

@@ -6,9 +6,9 @@
 - [x] Idempotent messages
 - [x] Cap Filter
 - [x] Multiple consumers - same assembly
-- [ ] Multiple consumers - same message
-- [ ] Change Qos
+- [x] Multiple consumers - same message
 - [ ] Error handling
+- [ ] Change Qos
 - [ ] Propagate tracecontext
 - [ ] Load test
 
@@ -39,15 +39,31 @@ dotnet sln add .\src\Ecommerce.Poc.Search\Ecommerce.Poc.Search.csproj
 
 docker compose up -d db es queue
 
-dotnet ef database update --project .\src\Ecommerce.Poc.Sale\Ecommerce.Poc.Sale.csproj --context SaleDbContext
+dotnet ef database update --project .\src\Ecommerce.Poc.Sale\ --context SaleDbContext
 
-dotnet ef database update --project .\src\Ecommerce.Poc.Catalog\Ecommerce.Poc.Catalog.csproj --context CatalogDbContext
+dotnet ef database update --project .\src\Ecommerce.Poc.Catalog\ --context CatalogDbContext
 
-dotnet ef migrations add InitialCreate --project .\src\Ecommerce.Poc.Catalog\Ecommerce.Poc.Catalog.csproj -o Infrastructure/Migrations
+dotnet ef migrations add InitialCreate --project .\src\Ecommerce.Poc.Catalog\ -o Infrastructure/Migrations
 
-dotnet ef migrations add InitialCreate --project .\src\Ecommerce.Poc.Sale\Ecommerce.Poc.Sale.csproj -o Infrastructure/Migrations
+dotnet ef migrations add InitialCreate --project .\src\Ecommerce.Poc.Sale\ -o Infrastructure/Migrations
 
 dotnet run --project .\src\Ecommerce.Poc.Catalog\ -- seed
+
+## Run all apps
+
+dotnet run --project ./src/Ecommerce.Poc.Sale
+
+dotnet run --project ./src/Ecommerce.Poc.Catalog -- api
+
+dotnet run --project ./src/Ecommerce.Poc.Catalog -- order-canceled-consumer
+
+dotnet run --project ./src/Ecommerce.Poc.Catalog -- order-created-consumer
+
+dotnet run --project ./src/Ecommerce.Poc.Search -- api
+
+dotnet run --project ./src/Ecommerce.Poc.Search -- order-created-consumer
+
+dotnet run --project ./src/Ecommerce.Poc.Search -- product-created-consumer
 
 # Useful links
 
@@ -55,3 +71,4 @@ https://github.com/dotnetcore/CAP/pull/976
 https://github.com/dotnetcore/CAP/issues/932
 https://github.com/dotnetcore/CAP/issues/800
 https://github.com/dotnetcore/CAP/issues/638
+https://www.elastic.co/guide/en/elasticsearch/client/net-api/master/lifetimes.html
