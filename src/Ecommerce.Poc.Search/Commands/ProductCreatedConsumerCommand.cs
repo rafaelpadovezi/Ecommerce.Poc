@@ -33,7 +33,7 @@ namespace Ecommerce.Poc.Search.Commands
                     services
                         .AddElasticClient(configuration)
                         .AddScoped<ProductCreatedConsumer>()
-                        .AddCapConsumer(configuration, "product_created");
+                        .AddSearchCap(configuration);
                 });
     }
 }

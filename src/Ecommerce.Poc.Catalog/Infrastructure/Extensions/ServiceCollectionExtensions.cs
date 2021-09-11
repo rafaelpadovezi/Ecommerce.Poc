@@ -9,13 +9,13 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static CapBuilder AddCapConsumer(this IServiceCollection services, IConfiguration configuration, string groupName)
+        public static CapBuilder AddCatalogCap(this IServiceCollection services, IConfiguration configuration)
         {
             return services.AddCap(x =>
                 {
                     x.UseEntityFramework<CatalogDbContext>();
 
-                    x.DefaultGroupName = $"catalog_{groupName}";
+                    x.DefaultGroupName = $"catalog";
 
                     x.UseRabbitMQ(o =>
                     {

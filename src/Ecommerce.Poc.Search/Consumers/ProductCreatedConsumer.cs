@@ -20,7 +20,7 @@ namespace Ecommerce.Poc.Search.Consumers
             _logger = logger;
         }
 
-        [CapSubscribe("product.created")]
+        [CapSubscribe("product.created", Group = "search.product.created")]
         public async Task AddProductAsync(ProductCreatedMessage message)
         {
             var product = new Product

@@ -8,7 +8,7 @@
 - [x] Multiple consumers - same assembly
 - [x] Multiple consumers - same message
 - [ ] Error handling
-- [ ] Change Qos
+- [ ] ~~Change Qos~~ (at least for now)
 - [ ] Propagate tracecontext
 - [ ] Load test
 
@@ -51,6 +51,7 @@ dotnet run --project .\src\Ecommerce.Poc.Catalog\ -- seed
 
 ## Run all apps
 
+```sh
 dotnet run --project ./src/Ecommerce.Poc.Sale
 
 dotnet run --project ./src/Ecommerce.Poc.Catalog -- api
@@ -64,6 +65,17 @@ dotnet run --project ./src/Ecommerce.Poc.Search -- api
 dotnet run --project ./src/Ecommerce.Poc.Search -- order-created-consumer
 
 dotnet run --project ./src/Ecommerce.Poc.Search -- product-created-consumer
+```
+
+or
+
+```sh
+dotnet run --project ./src/Ecommerce.Poc.Sale
+# Start APIs and consumers on the same proccess
+dotnet run --project ./src/Ecommerce.Poc.Catalog -- debug
+# Start APIs and consumers on the same proccess
+dotnet run --project ./src/Ecommerce.Poc.Search -- debug
+```
 
 # Useful links
 

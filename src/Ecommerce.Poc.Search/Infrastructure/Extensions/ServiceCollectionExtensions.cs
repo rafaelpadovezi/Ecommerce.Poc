@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using DotNetCore.CAP;
 using DotNetCore.CAP.Internal;
 using Microsoft.Extensions.Configuration;
@@ -11,14 +10,14 @@ namespace Ecommerce.Poc.Search.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static CapBuilder AddCapConsumer(this IServiceCollection services, IConfiguration configuration, string groupName)
+        public static CapBuilder AddSearchCap(this IServiceCollection services, IConfiguration configuration)
         {
             return services.AddCap(x =>
             {
                 // CAP needs a storage to work
                 x.UseInMemoryStorage();
 
-                x.DefaultGroupName = $"search_{groupName}";
+                x.DefaultGroupName = $"search";
 
                 x.UseRabbitMQ(o =>
                 {

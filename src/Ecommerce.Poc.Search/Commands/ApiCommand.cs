@@ -20,7 +20,7 @@ namespace Ecommerce.Poc.Search.Commands
                 .Build()
                 .RunAsync();
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -45,6 +45,7 @@ namespace Ecommerce.Poc.Search.Commands
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce.Poc.Search", Version = "v1" });
                 });
+                services.AddSearchCap(Configuration);
             }
 
             // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

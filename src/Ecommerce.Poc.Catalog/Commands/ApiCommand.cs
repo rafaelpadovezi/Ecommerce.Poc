@@ -43,17 +43,7 @@ namespace Ecommerce.Poc.Catalog.Commands
                 services.AddDbContext<CatalogDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("CatalogDbContext")));
 
-                services.AddCap(x =>
-                {
-                    x.UseEntityFramework<CatalogDbContext>();
-
-                    x.UseRabbitMQ(o =>
-                    {
-                        o.HostName = Configuration.GetValue<string>("RabbitMQ:HostName");
-                        o.Port = Configuration.GetValue<int>("RabbitMQ:Port");
-                        o.ExchangeName = Configuration.GetValue<string>("RabbitMQ:ExchangeName");
-                    });
-                });
+                services.AddCatalogCap(Configuration);
             }
 
             // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

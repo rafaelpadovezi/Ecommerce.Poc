@@ -23,7 +23,7 @@ namespace Ecommerce.Poc.Search.Consumers
             _logger = logger;
         }
 
-        [CapSubscribe("order.created")]
+        [CapSubscribe("order.created", Group = "search.order.created")]
         public async Task UpdateTotalSalesAsync(OrderCreatedMessage message)
         {
             var materialCodes = message.OrderItems.Select(x => x.MaterialCode);

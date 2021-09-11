@@ -14,7 +14,7 @@ namespace Ecommerce.Poc.Catalog.Consumers
             _logger = logger;
         }
 
-        [CapSubscribe("order.canceled")]
+        [CapSubscribe("order.canceled", Group = "catalog.order.canceled")]
         public Task UpdateOrderStockAsync(OrderCanceledMessage message)
         {
             _logger.LogInformation("Restore stock");

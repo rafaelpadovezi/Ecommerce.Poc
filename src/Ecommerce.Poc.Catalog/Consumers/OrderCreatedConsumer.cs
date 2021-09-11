@@ -22,7 +22,7 @@ namespace Ecommerce.Poc.Catalog.Consumers
             _logger = logger;
         }
 
-        [CapSubscribe("order.created")]
+        [CapSubscribe("order.created", Group = "catalog.order.created")]
         public async Task UpdateProductStock(OrderCreatedMessage message)
         {
             if (await TrackMessageAsync(message))

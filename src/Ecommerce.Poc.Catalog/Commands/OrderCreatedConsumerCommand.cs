@@ -34,7 +34,7 @@ namespace Ecommerce.Poc.Catalog.Commands
                 {
                     services
                         .AddScoped<OrderCreatedConsumer>()
-                        .AddCapConsumer(configuration, "order_created");;
+                        .AddCatalogCap(configuration);;
                     services.AddDbContext<CatalogDbContext>(options =>
                         options.UseSqlServer(configuration.GetConnectionString("CatalogDbContext")));
                 });
