@@ -10,6 +10,7 @@ namespace DotNetCore.Cap.Idempotency
             this IServiceCollection services)
             where TService : class, IConsumerService<TMessage>
             where TContext : DbContext
+            where TMessage : IMessage
         {
             return services
                 .AddScoped<TService>()

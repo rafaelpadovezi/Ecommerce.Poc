@@ -8,6 +8,7 @@ namespace DotNetCore.Cap.Idempotency
 {
     public class IdempotencyService<TMessage, TContext> : IConsumerService<TMessage>
         where TContext : DbContext
+        where TMessage : IMessage
     {
         private readonly DbSet<MessageTracking> _messages;
         private readonly IConsumerService<TMessage> _service;
@@ -23,7 +24,7 @@ namespace DotNetCore.Cap.Idempotency
             _logger = logger;
         }
         
-        public async Task ProcessMessageAsync(ConsumerMessage<TMessage> message)
+        public async Task ProcessMessageAsync(TMessage message)
         {
             if (await TrackMessageAsync(message))
             {
@@ -56,7 +57,7 @@ namespace DotNetCore.Cap.Idempotency
             return sqlEx.Number == 2627 && entry is not null;
         }
 
-        private async Task<bool> TrackMessageAsync(ConsumerMessage<TMessage> message)
+        private async Task<bool> TrackMessageAsync(TMessage message)
         {
             // The performance of this must be taken in account.
             // Although the query is fast executing for each message
@@ -64,7 +65,7 @@ namespace DotNetCore.Cap.Idempotency
             if (await _messages.AnyAsync(x => x.Id == message.MessageId))
                 return true;
 
-            _messages.Add(new MessageTracking { Id = message.MessageId, Type = message.Type});
+            _messages.Add(new MessageTracking { Id = message.MessageId, Type = message.MessageGroup});
             return false;
         }
     }

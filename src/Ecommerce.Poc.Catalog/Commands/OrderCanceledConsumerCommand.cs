@@ -10,9 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using Ecommerce.Poc.Catalog.Domain.Services;
-using Ecommerce.Poc.Catalog.Dtos;
-using Ecommerce.Poc.Catalog.Infrastructure.CapFilters;
 
 namespace Ecommerce.Poc.Catalog.Commands
 {

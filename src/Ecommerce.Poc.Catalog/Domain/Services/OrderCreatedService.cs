@@ -16,9 +16,8 @@ namespace Ecommerce.Poc.Catalog.Domain.Services
             _context = context;
         }
 
-        public async Task ProcessMessageAsync(ConsumerMessage<OrderCreatedMessage> fullMessage)
+        public async Task ProcessMessageAsync(OrderCreatedMessage message)
         {
-            var message = fullMessage.Body;
             var materialCodes = message.OrderItems.Select(x => x.MaterialCode);
             var productQuantities = message.OrderItems.ToDictionary(x => x.MaterialCode, x => x.Quantity);
 

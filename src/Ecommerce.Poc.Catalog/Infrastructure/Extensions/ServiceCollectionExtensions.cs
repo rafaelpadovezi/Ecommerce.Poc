@@ -4,6 +4,7 @@ using Ecommerce.Poc.Catalog.Infrastructure.CapFilters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using DotNetCore.Cap.Idempotency;
 
 namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
 {
@@ -30,7 +31,7 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
                         };
                     });
                 })
-                .AddSubscribeFilter<LoggingFilter>();
+                .AddSubscribeFilter<BootstrapFilter>();
         }
     }
 }
