@@ -1,4 +1,8 @@
-﻿using DotNetCore.CAP.Filter;
+﻿using System;
+using System.Text.Json;
+using DotNetCore.CAP.Filter;
+using DotNetCore.CAP.Messages;
+using Ecommerce.Poc.Catalog.Dtos;
 using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Poc.Catalog.Infrastructure.CapFilters

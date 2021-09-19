@@ -10,6 +10,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using DotNetCore.Cap.Idempotency;
+using Ecommerce.Poc.Catalog.Domain.Services;
+using Ecommerce.Poc.Catalog.Dtos;
+using Ecommerce.Poc.Catalog.Infrastructure.CapFilters;
 
 namespace Ecommerce.Poc.Catalog.Commands
 {
@@ -34,7 +38,8 @@ namespace Ecommerce.Poc.Catalog.Commands
                 {
                     services
                         .AddScoped<OrderCreatedConsumer>()
-                        .AddCatalogCap(configuration);;
+                        .AddConsumerService<OrderCreatedMessage, CatalogDbContext, OrderCreatedService>()
+                        .AddCatalogCap(configuration);
                     services.AddDbContext<CatalogDbContext>(options =>
                         options.UseSqlServer(configuration.GetConnectionString("CatalogDbContext")));
                 });

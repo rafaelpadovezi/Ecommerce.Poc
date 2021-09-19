@@ -15,7 +15,7 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
                 {
                     x.UseEntityFramework<CatalogDbContext>();
 
-                    x.DefaultGroupName = $"catalog";
+                    x.DefaultGroupName = "catalog";
 
                     x.UseRabbitMQ(o =>
                     {
