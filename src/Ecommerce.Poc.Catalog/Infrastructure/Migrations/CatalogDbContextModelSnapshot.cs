@@ -21,9 +21,14 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce.Poc.Catalog.Domain.Models.MessageTracking", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
