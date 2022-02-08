@@ -3,15 +3,13 @@ using System.Threading.Tasks;
 using CliFx;
 using CliFx.Attributes;
 using Ecommerce.Poc.Catalog.Consumers;
+using Ecommerce.Poc.Catalog.Domain.Services;
+using Ecommerce.Poc.Catalog.Dtos;
 using Ecommerce.Poc.Catalog.Infrastructure;
 using Ecommerce.Poc.Catalog.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Commands
 {
@@ -26,7 +24,11 @@ namespace Ecommerce.Poc.Catalog.Commands
                 .ConfigureServices(services =>
                 {
                     services.AddScoped<OrderCanceledConsumer>();
-                    services.AddScoped<OrderCreatedConsumer>();
+                    services
+                        .AddScoped<OrderCreatedConsumer>()
+                        .AddConsumerService<OrderCreatedMessage, OrderCreatedService>(
+                            options => options.UseIdempotency<CatalogDbContext>());
+                    services.AddCatalogCap(Program.Configuration);
                 })
                 .Build()
                 .RunAsync();

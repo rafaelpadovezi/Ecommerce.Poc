@@ -1,7 +1,7 @@
 ﻿using DotNetCore.CAP;
 using Ecommerce.Poc.Catalog.Dtos;
 using System.Threading.Tasks;
-using DotNetCore.Cap.Idempotency;
+using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Consumers
 {

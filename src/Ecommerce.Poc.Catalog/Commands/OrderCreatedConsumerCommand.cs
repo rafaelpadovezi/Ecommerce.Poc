@@ -2,7 +2,6 @@
 using CliFx.Attributes;
 using Ecommerce.Poc.Catalog.Consumers;
 using Ecommerce.Poc.Catalog.Infrastructure;
-using Ecommerce.Poc.Catalog.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,10 +9,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using DotNetCore.Cap.Idempotency;
 using Ecommerce.Poc.Catalog.Domain.Services;
 using Ecommerce.Poc.Catalog.Dtos;
-using Ecommerce.Poc.Catalog.Infrastructure.CapFilters;
+using Ecommerce.Poc.Catalog.Infrastructure.Extensions;
+using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Commands
 {
@@ -38,8 +37,13 @@ namespace Ecommerce.Poc.Catalog.Commands
                 {
                     services
                         .AddScoped<OrderCreatedConsumer>()
-                        .AddConsumerService<OrderCreatedMessage, CatalogDbContext, OrderCreatedService>()
+                        .AddConsumerService<OrderCreatedMessage, OrderCreatedService>(
+                            options =>
+                            {
+                                options.UseIdempotency<CatalogDbContext>();
+                            })
                         .AddCatalogCap(configuration);
+
                     services.AddDbContext<CatalogDbContext>(options =>
                         options.UseSqlServer(configuration.GetConnectionString("CatalogDbContext")));
                 });

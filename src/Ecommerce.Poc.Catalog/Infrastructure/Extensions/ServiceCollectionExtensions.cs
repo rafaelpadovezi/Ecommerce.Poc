@@ -1,10 +1,9 @@
 ﻿using DotNetCore.CAP;
 using DotNetCore.CAP.Internal;
-using Ecommerce.Poc.Catalog.Infrastructure.CapFilters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
-using DotNetCore.Cap.Idempotency;
+using Ziggurat.CapAdapter;
 
 namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
 {

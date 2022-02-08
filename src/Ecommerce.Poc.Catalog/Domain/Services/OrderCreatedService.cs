@@ -1,9 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
-using DotNetCore.Cap.Idempotency;
 using Ecommerce.Poc.Catalog.Dtos;
 using Ecommerce.Poc.Catalog.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Domain.Services
 {

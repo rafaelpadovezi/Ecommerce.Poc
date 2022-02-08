@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DotNetCore.Cap.Idempotency;
+using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Dtos
 {

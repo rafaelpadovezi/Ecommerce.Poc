@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Poc.Catalog.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using DotNetCore.Cap.Idempotency;
+using Ziggurat.Idempotency;
 
 namespace Ecommerce.Poc.Catalog.Infrastructure
 {

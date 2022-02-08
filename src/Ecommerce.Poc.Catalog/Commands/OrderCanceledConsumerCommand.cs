@@ -35,6 +35,7 @@ namespace Ecommerce.Poc.Catalog.Commands
                     services
                         .AddScoped<OrderCanceledConsumer>()
                         .AddCatalogCap(configuration);
+
                     services.AddDbContext<CatalogDbContext>(options =>
                         options.UseSqlServer(configuration.GetConnectionString("CatalogDbContext")));
                 });
