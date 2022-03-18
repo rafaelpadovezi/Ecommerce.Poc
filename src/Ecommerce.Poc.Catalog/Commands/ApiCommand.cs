@@ -1,5 +1,6 @@
 ﻿using CliFx;
 using CliFx.Attributes;
+using CliFx.Infrastructure;
 using Ecommerce.Poc.Catalog.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +35,6 @@ namespace Ecommerce.Poc.Catalog.Commands
             // This method gets called by the runtime. Use this method to add services to the container.
             public void ConfigureServices(IServiceCollection services)
             {
-
                 services.AddControllers();
                 services.AddSwaggerGen(c =>
                 {
