@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CliFx;
 using CliFx.Attributes;
+using CliFx.Infrastructure;
 using Ecommerce.Poc.Search.Consumers;
 using Ecommerce.Poc.Search.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;

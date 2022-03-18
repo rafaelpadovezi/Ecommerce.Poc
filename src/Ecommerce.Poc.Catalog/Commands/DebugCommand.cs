@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CliFx;
 using CliFx.Attributes;
+using CliFx.Infrastructure;
 using Ecommerce.Poc.Catalog.Consumers;
 using Ecommerce.Poc.Catalog.Domain.Services;
 using Ecommerce.Poc.Catalog.Dtos;

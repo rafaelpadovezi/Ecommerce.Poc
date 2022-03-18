@@ -1,5 +1,6 @@
 ﻿using CliFx;
 using CliFx.Attributes;
+using CliFx.Infrastructure;
 using Ecommerce.Poc.Catalog.Consumers;
 using Ecommerce.Poc.Catalog.Infrastructure;
 using Microsoft.EntityFrameworkCore;
