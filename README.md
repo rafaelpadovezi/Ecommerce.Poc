@@ -87,3 +87,4 @@ dotnet run --project .\src\Ecommerce.Poc.Catalog\ -- seed
 - https://www.elastic.co/guide/en/elasticsearch/client/net-api/master/lifetimes.html
 - https://github.com/dotnetcore/CAP/issues/347 - CAP message Id
 - https://cap.dotnetcore.xyz/user-guide/en/getting-started/quick-start/
+- https://github.com/dotnetcore/CAP/issues/860#issuecomment-838020712
