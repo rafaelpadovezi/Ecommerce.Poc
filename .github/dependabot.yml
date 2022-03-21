@@ -8,3 +8,6 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "develop"
+    labels:
+      - "develop"
+    open-pull-requests-limit: 10
