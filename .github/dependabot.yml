@@ -7,3 +7,4 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "daily"
+    target-branch: "develop"
