@@ -12,6 +12,7 @@ using System;
 using System.Threading.Tasks;
 using Ecommerce.Poc.Catalog.Domain.Services;
 using Ecommerce.Poc.Catalog.Dtos;
+using Ecommerce.Poc.Catalog.Infrastructure.ConsumerMiddlewares;
 using Ecommerce.Poc.Catalog.Infrastructure.Extensions;
 using Ziggurat;
 
@@ -41,6 +42,7 @@ namespace Ecommerce.Poc.Catalog.Commands
                         .AddConsumerService<OrderCreatedMessage, OrderCreatedService>(
                             options =>
                             {
+                                options.Use<ValidationMiddleware<OrderCreatedMessage>>();
                                 options.UseIdempotency<CatalogDbContext>();
                             })
                         .AddCatalogCap(configuration);

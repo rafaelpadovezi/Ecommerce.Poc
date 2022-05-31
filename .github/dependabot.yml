@@ -10,4 +10,5 @@ updates:
     target-branch: "develop"
     labels:
       - "develop"
+      - "dependencies"
     open-pull-requests-limit: 10
