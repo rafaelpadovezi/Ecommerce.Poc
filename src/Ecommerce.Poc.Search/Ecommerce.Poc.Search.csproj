@@ -10,7 +10,7 @@
     <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="5.1.3" />
     <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="5.1.3" />
     <PackageReference Include="NEST" Version="7.14.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
     <PackageReference Include="Ziggurat" Version="1.0.0-beta" />
     <PackageReference Include="Ziggurat.CapAdapter" Version="1.0.0-beta" />
   </ItemGroup>
