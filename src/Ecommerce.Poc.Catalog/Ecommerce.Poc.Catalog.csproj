@@ -16,7 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
-    <PackageReference Include="Ziggurat" Version="1.0.0-beta" />
+    <PackageReference Include="Ziggurat" Version="1.0.0" />
     <PackageReference Include="Ziggurat.CapAdapter" Version="1.0.0-beta" />
   </ItemGroup>
 
