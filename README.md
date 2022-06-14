@@ -5,20 +5,21 @@ A microservice example application using asynchronous communication.
 ## TODO
 
 - [x] Messaging between services
-- [x] Idempotent messages
+- [x] Idempotent messages (sql server)
 - [x] Cap Filter
 - [x] Multiple consumers - same assembly
 - [x] Multiple consumers - same message
+- [x] Idempotent messages (mongodb)
+- [ ] Open Telemetry
 - [ ] Error handling
 - [ ] ~~Change Qos~~ (at least for now)
-- [ ] Propagate tracecontext
 - [ ] Load test
 
 ## Preparing the enviroment
 
 ```bash
 # Run dependencies
-docker compose up -d db es queue
+docker compose up -d mongoclustersetup db es queue
 
 # Run migrations for Sale
 dotnet ef database update --project ./src/Ecommerce.Poc.Sale/ --context SaleDbContext
@@ -88,3 +89,4 @@ dotnet run --project .\src\Ecommerce.Poc.Catalog\ -- seed
 - https://github.com/dotnetcore/CAP/issues/347 - CAP message Id
 - https://cap.dotnetcore.xyz/user-guide/en/getting-started/quick-start/
 - https://github.com/dotnetcore/CAP/issues/860#issuecomment-838020712
+- https://github.com/dotnetcore/CAP/issues/1118

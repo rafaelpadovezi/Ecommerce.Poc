@@ -38,7 +38,7 @@ namespace Ecommerce.Poc.Catalog.Commands
                             options =>
                             {
                                 options.Use<ValidationMiddleware<OrderCreatedMessage>>();
-                                options.UseIdempotency<CatalogDbContext>();
+                                options.UseEntityFrameworkIdempotency<OrderCreatedMessage, CatalogDbContext>();
                             });
                     services.AddCatalogCap(Program.Configuration);
                 })

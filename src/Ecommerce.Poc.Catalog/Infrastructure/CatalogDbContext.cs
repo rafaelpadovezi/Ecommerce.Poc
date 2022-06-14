@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Poc.Catalog.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Ziggurat.Idempotency;
+using Ziggurat.SqlServer;
 
 namespace Ecommerce.Poc.Catalog.Infrastructure
 {
@@ -21,5 +21,11 @@ namespace Ecommerce.Poc.Catalog.Infrastructure
 
         public DbSet<Product> Products { get; set; }
         public DbSet<MessageTracking> Messages { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.MapMessageTracker();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
