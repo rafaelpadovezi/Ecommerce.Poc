@@ -11,8 +11,12 @@ using Ecommerce.Poc.Catalog.Infrastructure.ConsumerMiddlewares;
 using Ecommerce.Poc.Catalog.Infrastructure.Extensions;
 using Ecommerce.Poc.Catalog.Validators;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Commands
@@ -41,6 +45,9 @@ namespace Ecommerce.Poc.Catalog.Commands
                                 options.UseEntityFrameworkIdempotency<OrderCreatedMessage, CatalogDbContext>();
                             });
                     services.AddCatalogCap(Program.Configuration);
+                    
+                    // OpenTelemetry
+                    services.AddOtel(Program.Configuration["Otlp:ServiceName"]);
                 })
                 .Build()
                 .RunAsync();

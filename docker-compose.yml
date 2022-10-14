@@ -24,6 +24,23 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.52.0-386
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "4317:4317" # OTLP GRPC receiver
+    depends_on:
+      - jaeger
+  
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14250"
+
   mongo1:
     image: mongo:5
     container_name: mongo1

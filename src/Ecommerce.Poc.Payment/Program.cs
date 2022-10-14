@@ -1,6 +1,9 @@
 using DotNetCore.CAP.Internal;
 using Ecommerce.Poc.Payment;
 using MongoDB.Driver;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Ziggurat;
 using Ziggurat.CapAdapter;
 
@@ -33,6 +36,17 @@ builder.Services
         });
     })
     .AddSubscribeFilter<BootstrapFilter>(); // Enrich the message with the required information;
+
+builder.Services.AddOpenTelemetryTracing((otelBuilder) => otelBuilder
+    .AddAspNetCoreInstrumentation()
+    .SetResourceBuilder(ResourceBuilder.CreateDefault()
+        .AddService(builder.Configuration.GetValue<string>("Otlp:ServiceName")))
+    .AddCapInstrumentation()
+    .AddOtlpExporter(otlpOptions =>
+    {
+        otlpOptions.Endpoint = new Uri(builder.Configuration.GetValue<string>("Otlp:Endpoint"));
+        otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+    }));
 
 var app = builder.Build();
 
