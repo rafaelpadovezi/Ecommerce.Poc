@@ -1,6 +1,7 @@
 using DotNetCore.CAP.Internal;
 using Ecommerce.Poc.Payment;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -13,8 +14,10 @@ builder.Services.AddScoped<OrderCreatedConsumer>();
 builder.Services.AddConsumerService<OrderCreatedMessage, OrderCreatedConsumerService>(
     options => options.UseMongoDbIdempotency("payment"));
 
+var clientSettings = MongoClientSettings.FromConnectionString(builder.Configuration.GetConnectionString("MongoDB"));
+clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
 builder.Services.AddSingleton<IMongoClient>(
-    new MongoClient(builder.Configuration.GetConnectionString("MongoDB")));
+    new MongoClient(clientSettings));
 builder.Services
     .AddCap(x =>
     {
@@ -42,6 +45,7 @@ builder.Services.AddOpenTelemetryTracing((otelBuilder) => otelBuilder
     .SetResourceBuilder(ResourceBuilder.CreateDefault()
         .AddService(builder.Configuration.GetValue<string>("Otlp:ServiceName")))
     .AddCapInstrumentation()
+    .AddMongoDBInstrumentation()
     .AddOtlpExporter(otlpOptions =>
     {
         otlpOptions.Endpoint = new Uri(builder.Configuration.GetValue<string>("Otlp:Endpoint"));
