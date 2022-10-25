@@ -23,5 +23,6 @@ public class OrderCreatedConsumerService : IConsumerService<OrderCreatedMessage>
         using var session = _client.StartIdempotentTransaction(message);
         var collection = _client.GetDatabase(databaseName).GetCollection<OrderCreatedMessage>("orders");
         await collection.InsertOneAsync(session, message);
+        await session.CommitTransactionAsync();
     }
 }

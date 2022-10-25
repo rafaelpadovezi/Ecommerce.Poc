@@ -10,7 +10,7 @@ A microservice example application using asynchronous communication.
 - [x] Multiple consumers - same assembly
 - [x] Multiple consumers - same message
 - [x] Idempotent messages (mongodb)
-- [ ] Open Telemetry
+- [x] Open Telemetry
 - [ ] Error handling
 - [ ] ~~Change Qos~~ (at least for now)
 - [ ] Load test
@@ -19,7 +19,7 @@ A microservice example application using asynchronous communication.
 
 ```bash
 # Run dependencies
-docker compose up -d mongoclustersetup db es queue
+docker compose up -d mongoclustersetup db es queue otel-collector
 
 # Run migrations for Sale
 dotnet ef database update --project ./src/Ecommerce.Poc.Sale/ --context SaleDbContext
@@ -90,3 +90,4 @@ dotnet run --project .\src\Ecommerce.Poc.Catalog\ -- seed
 - https://cap.dotnetcore.xyz/user-guide/en/getting-started/quick-start/
 - https://github.com/dotnetcore/CAP/issues/860#issuecomment-838020712
 - https://github.com/dotnetcore/CAP/issues/1118
+- https://github.com/luizhlelis/cap-playground

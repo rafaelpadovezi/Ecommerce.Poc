@@ -1,0 +1,26 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+  zipkin:
+
+exporters:
+  jaeger:
+    endpoint: "jaeger:14250"
+    tls:
+      insecure: true
+
+processors:
+  batch:
+    # Batch size must be less than or equal to 1000
+    send_batch_max_size: 1000
+    send_batch_size: 800
+    timeout: 30s
+
+service:
+  pipelines:
+    traces:
+      receivers: [ otlp, zipkin ]
+      exporters: [ jaeger ]
+      processors: [ batch ]

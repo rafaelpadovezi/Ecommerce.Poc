@@ -5,6 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System;
 
 namespace Ecommerce.Poc.Sale
 {
@@ -42,6 +46,18 @@ namespace Ecommerce.Poc.Sale
                     o.ExchangeName = Configuration.GetValue<string>("RabbitMQ:ExchangeName");
                 });
             });
+
+            services.AddOpenTelemetryTracing((builder) => builder
+                .AddAspNetCoreInstrumentation()
+                .AddSqlClientInstrumentation(options => options.SetDbStatementForText = true)
+                .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                    .AddService(Configuration.GetValue<string>("Otlp:ServiceName")))
+                .AddCapInstrumentation()
+                .AddOtlpExporter(otlpOptions =>
+                {
+                    otlpOptions.Endpoint = new Uri(Configuration.GetValue<string>("Otlp:Endpoint"));
+                    otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+                }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,10 @@
 using DotNetCore.CAP.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System;
 using System.Collections.Generic;
 using Ziggurat.CapAdapter;
 
@@ -9,6 +13,22 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddOtel(this IServiceCollection services, string serviceName)
+        {
+            return services.AddOpenTelemetryTracing((builder) => builder
+                .AddAspNetCoreInstrumentation()
+                .AddSqlClientInstrumentation(options => options.SetDbStatementForText = true)
+                .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                    .AddService(serviceName))
+                .AddCapInstrumentation()
+                .AddOtlpExporter(otlpOptions =>
+                {
+                    otlpOptions.Endpoint = new Uri(Program.Configuration.GetValue<string>("Otlp:Endpoint"));
+                    otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+                })
+            );
+        }
+        
         public static CapBuilder AddCatalogCap(this IServiceCollection services, IConfiguration configuration)
         {
             return services.AddCap(x =>
