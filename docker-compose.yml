@@ -1,7 +1,6 @@
 version: "3.9"
 services:
   db:
-    container_name: sql_server
     image: mcr.microsoft.com/mssql/server
     environment:
       SA_PASSWORD: Password1
@@ -11,7 +10,6 @@ services:
 
   es:
     image: elasticsearch:7.9.1
-    container_name: es
     ports:
       - "9200:9200"
     environment:
@@ -43,7 +41,6 @@ services:
 
   mongo1:
     image: mongo:5
-    container_name: mongo1
     ports:
       - 27017:27017
     restart: always
@@ -53,7 +50,6 @@ services:
 
   mongo2:
     image: mongo:5
-    container_name: mongo2
     ports:
       - 27018:27017
     networks:
@@ -62,7 +58,6 @@ services:
 
   mongo3:
     image: mongo:5
-    container_name: mongo3
     ports:
       - 27019:27017
     networks:
@@ -71,7 +66,6 @@ services:
 
   mongoclustersetup:
     image: mongo:5
-    container_name: mongoclustersetup
     depends_on:
       - mongo1
       - mongo2

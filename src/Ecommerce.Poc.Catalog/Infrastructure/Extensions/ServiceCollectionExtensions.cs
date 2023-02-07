@@ -1,7 +1,9 @@
 ﻿using DotNetCore.CAP;
 using DotNetCore.CAP.Internal;
+using DotNetCore.CAP.Transport;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -31,11 +33,13 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
         
         public static CapBuilder AddCatalogCap(this IServiceCollection services, IConfiguration configuration)
         {
-            return services.AddCap(x =>
+            var x = services.AddCap(x =>
                 {
                     x.UseEntityFramework<CatalogDbContext>();
 
                     x.DefaultGroupName = "catalog";
+                    x.ConsumerThreadCount = 1;
+                    x.EnableConsumerPrefetch = false;
 
                     x.UseRabbitMQ(o =>
                     {
@@ -51,6 +55,15 @@ namespace Ecommerce.Poc.Catalog.Infrastructure.Extensions
                     });
                 })
                 .AddSubscribeFilter<BootstrapFilter>();
+            
+            var descriptor =
+                new ServiceDescriptor(
+                    typeof(IConsumerClientFactory),
+                    typeof(CustomRabbitMQConsumerClientFactory),
+                    ServiceLifetime.Singleton);
+            services.Replace(descriptor);
+
+            return x;
         }
     }
 }

@@ -14,6 +14,8 @@ using Ecommerce.Poc.Catalog.Domain.Services;
 using Ecommerce.Poc.Catalog.Dtos;
 using Ecommerce.Poc.Catalog.Infrastructure.ConsumerMiddlewares;
 using Ecommerce.Poc.Catalog.Infrastructure.Extensions;
+using Ecommerce.Poc.Catalog.Validators;
+using FluentValidation;
 using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Commands
@@ -37,6 +39,9 @@ namespace Ecommerce.Poc.Catalog.Commands
                 })
                 .ConfigureServices(services =>
                 {
+                    services.AddScoped<IValidatorFactory>(s => new ServiceProviderValidatorFactory(s));
+                    services.AddScoped<IValidator<OrderCreatedMessage>, OrderCreatedMessageValidator>();
+
                     services
                         .AddScoped<OrderCreatedConsumer>()
                         .AddConsumerService<OrderCreatedMessage, OrderCreatedService>(
