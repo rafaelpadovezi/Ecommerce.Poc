@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Ecommerce.Poc.Catalog.Dtos;
 using Ecommerce.Poc.Catalog.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Ziggurat;
 
 namespace Ecommerce.Poc.Catalog.Domain.Services
@@ -10,10 +11,12 @@ namespace Ecommerce.Poc.Catalog.Domain.Services
     public class OrderCreatedService : IConsumerService<OrderCreatedMessage>
     {
         private readonly CatalogDbContext _context;
+        private readonly ILogger<OrderCreatedService> _logger;
 
-        public OrderCreatedService(CatalogDbContext context)
+        public OrderCreatedService(CatalogDbContext context, ILogger<OrderCreatedService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task ProcessMessageAsync(OrderCreatedMessage message)
@@ -30,7 +33,19 @@ namespace Ecommerce.Poc.Catalog.Domain.Services
                 product.Stock -= productQuantities[product.MaterialCode];
             }
 
+            await Task.Delay(250);
+
+            try
+            {
+
+            }
+            catch(DbUpdateException)
+            {
+                _logger.LogWarning("[TESTE]Mensagem {messageId} duplicada", message.Id);
+                throw;
+            }
             await _context.SaveChangesAsync();
+            _logger.LogWarning("[TESTE]Mensagem {messageId} processada com sucesso", message.Id);
         }
     }
 }

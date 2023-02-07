@@ -1,3 +1,4 @@
+using DotNetCore.CAP;
 using DotNetCore.CAP.Internal;
 using Ecommerce.Poc.Catalog.Commands;
 using Ecommerce.Poc.Catalog.Domain.Models;
